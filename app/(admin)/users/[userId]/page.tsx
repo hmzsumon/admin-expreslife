@@ -41,6 +41,7 @@ const UserDetails = ({ params }: { params: { userId: string } }) => {
 		data || {};
 	const {
 		active_date,
+		e_balance,
 		allow_to_deposit,
 		allow_to_withdraw,
 		children,
@@ -231,6 +232,10 @@ const UserDetails = ({ params }: { params: { userId: string } }) => {
 						<p>
 							<span className='font-bold'>Main Balance: </span>
 							{m_balance}
+						</p>
+						<p>
+							<span className='font-bold'>Earn Balance: </span>
+							{e_balance}
 						</p>
 						<p>
 							<span className='font-bold'>Total Deposit :</span>

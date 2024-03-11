@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, gridClasses } from '@mui/x-data-grid';
 import { useGetDepositsQuery } from '@/redux/features/deposit/depositApi';
 import Link from 'next/link';
 import { formatDate, formDateWithTime } from '@/lib/functions';
@@ -136,6 +136,13 @@ const Users = () => {
 					<p>
 						M:{' '}
 						{Number(params.row.balance).toLocaleString('en-US', {
+							style: 'currency',
+							currency: 'USD',
+						})}
+					</p>
+					<p>
+						E:{' '}
+						{Number(params.row.e_balance).toLocaleString('en-US', {
 							style: 'currency',
 							currency: 'USD',
 						})}
@@ -289,6 +296,7 @@ const Users = () => {
 				customer_id: user.customer_id,
 				username: user.username,
 				balance: user.m_balance,
+				e_balance: user.e_balance,
 				phone: user.phone,
 				country: user.country,
 				status: user.is_active,
@@ -339,9 +347,13 @@ const Users = () => {
 						<DataGrid
 							rows={rows}
 							columns={columns}
+							getRowHeight={() => 'auto'}
 							sx={{
 								boxShadow: 2,
 								border: 2,
+								[`& .${gridClasses.cell}`]: {
+									py: 1,
+								},
 							}}
 						/>
 					</ThemeProvider>
