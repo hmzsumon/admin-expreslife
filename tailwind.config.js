@@ -1,7 +1,8 @@
+import { withUt } from 'uploadthing/tw';
+/** @type {import('tailwindcss').Config} */
 const defaultTheme = require('tailwindcss/defaultTheme');
 
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+export default withUt({
 	content: [
 		'./pages/**/*.{js,ts,jsx,tsx,mdx}',
 		'./components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -14,6 +15,7 @@ module.exports = {
 		},
 		colors: {
 			blue: '#3C50E0',
+			orange: '#FFA70B',
 			current: 'currentColor',
 			transparent: 'transparent',
 			white: '#FFFFFF',
@@ -257,4 +259,4 @@ module.exports = {
 		},
 	},
 	plugins: [],
-};
+});

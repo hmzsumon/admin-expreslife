@@ -15,6 +15,7 @@ import { apiSlice } from './features/api/apiSlice';
 import authReducer from './features/auth/authSlice';
 import miningReducer from './features/mining/miningSlice';
 import colorThemReducer from './colorThemSlice';
+import depositReducer from './features/deposit/depositSlice';
 
 const persistConfig = {
 	key: 'root',
@@ -28,6 +29,7 @@ export const rootReducer = combineReducers({
 	auth: authReducer,
 	mining: miningReducer,
 	colorThem: colorThemReducer,
+	deposit: depositReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

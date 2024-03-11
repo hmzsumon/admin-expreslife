@@ -210,7 +210,7 @@ const Deposit = ({ params }: { params: { depositId: string } }) => {
 					<li>
 						<p className='capitalize'>Deposit By</p>
 					</li>
-					<li className='text-end'>{deposit?.method?.username}</li>
+					<li className='text-end'>{deposit?.method?.owner_username}</li>
 				</div>
 			</div>
 			{status === 'pending' && (

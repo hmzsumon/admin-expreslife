@@ -1,15 +1,21 @@
 'use client';
-import React, { use, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { fetchBaseQueryError } from '@/redux/helpers';
 import { toast } from 'react-toastify';
 import Box from '@mui/material/Box';
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { SyncLoader } from 'react-spinners';
 import {
 	useActivateDepositMethodMutation,
 	useGetDepositMethodsQuery,
 } from '@/redux/features/deposit/depositApi';
+import {
+	addDepositMethod,
+	removeDepositMethod,
+} from '@/redux/features/deposit/depositSlice';
+import { useDispatch } from 'react-redux';
+import Link from 'next/link';
 
 const darkTheme = createTheme({
 	palette: {
@@ -37,6 +43,13 @@ const AllDepositMethods = () => {
 		activateDepositMethod(id);
 	};
 
+	const dispatch = useDispatch();
+
+	// handle view methods
+	const handleViewMethods = (wallets: any, username: any) => {
+		dispatch(addDepositMethod({ username, wallets }));
+	};
+
 	useEffect(() => {
 		if (a_isSuccess) {
 			toast.success('Deposit method activated successfully');
@@ -52,22 +65,22 @@ const AllDepositMethods = () => {
 			headerName: 'Username',
 			width: 150,
 		},
+
 		{
-			field: 'qr_code_url',
-			headerName: 'QR Code',
-			width: 100,
-			renderCell: (params) => {
+			field: 'methods',
+			headerName: 'Methods',
+			width: 400,
+
+			renderCell: (params: any) => {
 				return (
-					<div className='flex items-center justify-center'>
-						<img src={params.value} alt='QR Code' className='w-10 h-10' />
+					<div className=''>
+						<h2>
+							{params.row.methods.length} methods are available for{' '}
+							{params.row.username}
+						</h2>
 					</div>
 				);
 			},
-		},
-		{
-			field: 'address',
-			headerName: 'Trx Address',
-			width: 400,
 		},
 
 		{
@@ -113,6 +126,29 @@ const AllDepositMethods = () => {
 				);
 			},
 		},
+
+		// view methods button
+		{
+			field: 'view',
+			headerName: 'View',
+			width: 150,
+			renderCell: (params) => {
+				return (
+					<div className='flex items-center justify-center'>
+						<Link href='/deposit/wallets'>
+							<button
+								className='px-2 py-1 text-xs text-white rounded-full bg-primary'
+								onClick={() =>
+									handleViewMethods(params.row.methods, params.row.username)
+								}
+							>
+								View
+							</button>
+						</Link>
+					</div>
+				);
+			},
+		},
 	];
 
 	const rows: any[] = [];
@@ -122,9 +158,8 @@ const AllDepositMethods = () => {
 			return rows.push({
 				id: method._id,
 				username: method.username,
-				address: method.trx_address, // Corrected from user.full_name
 				is_active: method.is_active,
-				qr_code_url: method.qr_code_url,
+				methods: method.wallets,
 			});
 		});
 	return (
